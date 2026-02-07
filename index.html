@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emon Kumar | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #ffffff; overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* স্টিকি গ্লাস হেডার */
+        .glass-nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* কম্প্যাক্ট হিরো সেকশন */
+        .hero-container { 
+            position: relative; width: 240px; height: 240px; 
+            margin: 100px auto 30px; display: flex; align-items: center; justify-content: center; 
+        }
+        
+        .dot-circle {
+            position: absolute; width: 100%; height: 100%;
+            border: 1.5px dotted #3b82f6; border-radius: 50%;
+            animation: rotate-circle 20s linear infinite;
+        }
+        @keyframes rotate-circle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .profile-img-wrapper { 
+            position: relative; width: 160px; height: 160px; 
+            border-radius: 50%; z-index: 10; overflow: hidden; 
+            border: 4px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+        }
+        .profile-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ফ্লোটিং স্কিল ট্যাগ */
+        .skill-tag {
+            position: absolute; background: white; padding: 5px 10px; border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); font-size: 9px; font-weight: 700;
+            display: flex; align-items: center; gap: 4px; z-index: 20;
+            animation: float 3s ease-in-out infinite; white-space: nowrap;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .tag-1 { top: 8%; left: -5%; }
+        .tag-2 { top: 15%; right: -5%; animation-delay: 0.5s; }
+        .tag-3 { bottom: 20%; left: -8%; animation-delay: 1s; }
+        .tag-4 { bottom: 8%; right: -5%; animation-delay: 1.5s; }
+
+        /* সোশ্যাল বাটন অ্যানিমেশন */
+        .social-btn {
+            width: 55px; height: 55px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: #333; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .social-btn:hover { transform: translateY(-10px); color: white; }
+        .facebook:hover { background: #1877F2; }
+        .whatsapp:hover { background: #25D366; }
+        .instagram:hover { background: #E4405F; }
+        .github:hover { background: #333; }
+
+        /* কাস্টম নোটিফিকেশন বক্স */
+        #custom-alert {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px);
+            z-index: 3000; align-items: center; justify-content: center;
+        }
+        .alert-content {
+            background: white; padding: 30px; border-radius: 30px; width: 90%; max-width: 350px;
+            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            transform: scale(0.8); opacity: 0; transition: 0.3s ease-out;
+        }
+
+        /* প্রজেক্ট পোর্ট্রেট কার্ড */
+        .portrait-card {
+            width: 100%; max-width: 320px; margin: 0 auto 35px;
+            background: white; border-radius: 35px; overflow: hidden;
+            border: 1px solid #f0f0f0; box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        }
+        .portrait-card img { width: 100%; aspect-ratio: 9/16; object-fit: cover; }
+
+        #project-view { display: none; position: fixed; inset: 0; background: #fff; z-index: 2000; overflow-y: auto; }
+        .tech-pill { padding: 5px 12px; border-radius: 50px; font-weight: 700; font-size: 10px; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="glass-nav">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-black tracking-tighter">Emon<span class="text-blue-500">.</span>Kumar</div>
+            <button onclick="document.getElementById('contact').scrollIntoView()" class="bg-black text-white px-5 py-2 rounded-xl font-bold text-[10px] uppercase tracking-wider active:scale-95 transition">Contact Now</button>
+        </div>
+    </nav>
+
+    <div id="custom-alert">
+        <div class="alert-content" id="alert-box">
+            <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-black text-gray-800 mb-2">Oops!</h3>
+            <p class="text-gray-500 text-sm font-semibold mb-6">সবগুলো ঘর সঠিকভাবে পূরণ করুন!</p>
+            <button onclick="closeAlert()" class="w-full bg-gray-900 text-white py-3 rounded-2xl font-bold text-sm active:scale-95 transition">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-6">
+        <section class="text-center mb-16">
+            <div class="hero-container">
+                <div class="dot-circle"></div>
+                <div class="profile-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400" alt="Siam Hasan">
+                </div>
+                <div class="skill-tag tag-1">💻 Fronted Designer</div>
+                <div class="skill-tag tag-2">📹 Video Editor</div>
+                <div class="skill-tag tag-3">🎵 Singing</div>
+                <div class="skill-tag tag-4">📲 Digital Marketer </div>
+            </div>
+            <p class="text-blue-600 font-bold tracking-[0.2em] text-[9px] uppercase mb-3">Frontend Architect</p>
+            <h1 class="text-4xl md:text-6xl font-black leading-tight mb-8 tracking-tighter text-gray-900">Crafting Modern <br> Digital Experiences.</h1>
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+                <span class="tech-pill bg-orange-500">HTML5</span>
+                <span class="tech-pill bg-blue-500">CSS</span>
+                <span class="tech-pill bg-yellow-400 !text-black">JavaScript</span>
+            </div>
+        </section>
+
+        <section class="mb-24">
+            <h2 class="text-2xl font-black mb-10 text-gray-800">Featured Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="main-grid"></div>
+        </section>
+
+        <section id="contact" class="max-w-lg mx-auto mb-20">
+            <div class="bg-slate-50 p-8 rounded-[40px] border border-gray-100 shadow-xl shadow-blue-50/50">
+                <h2 class="text-3xl font-black mb-8 text-center text-gray-900">Hire Me</h2>
+                <div class="space-y-4">
+                    <input type="text" id="sender-name" placeholder="Your Name" class="w-full p-4 rounded-xl bg-white border border-gray-100 outline-none focus:ring-2 focus:ring-blue-400 transition text-sm">
+                    <input type="email" id="sender-email" placeholder="Gmail Address" class="w-full p-4 rounded-xl bg-white border border-gray-100 outline-none focus:ring-2 focus:ring-blue-400 transition text-sm">
+                    <textarea id="sender-message" placeholder="Your Vision..." rows="3" class="w-full p-4 rounded-xl bg-white border border-gray-100 outline-none focus:ring-2 focus:ring-blue-400 transition text-sm"></textarea>
+                    <button onclick="sendMail()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-100 hover:bg-black transition-all">Send Message</button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="pb-16 text-center">
+            <p class="text-gray-400 text-[10px] font-bold tracking-widest uppercase mb-8">Find me on social networks</p>
+            <div class="flex flex-wrap justify-center gap-4 mb-10">
+                <a href="https://www.facebook.com/emonnath36231" target="_blank" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/8801781099407" target="_blank" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://instagram.com/emo_nnath" target="_blank" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/yourprofile" target="_blank" class="social-btn github"><i class="fab fa-github"></i></a>
+            </div>
+            <p class="text-gray-300 text-[10px] font-bold">© 2026 SIAM HASAN DEV</p>
+        </footer>
+    </main>
+
+    <div id="project-view">
+        <div class="max-w-3xl mx-auto p-6 pb-20">
+            <button onclick="closeProject()" class="my-6 text-gray-400 font-black text-sm flex items-center gap-1 hover:text-black">
+                <i class="fa-solid fa-arrow-left"></i> Back to Home
+            </button>
+            <div id="project-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // ইমেইল এবং অ্যালার্ট ফাংশন
+        function sendMail() {
+            const myEmail = "itzemon670@gmail.com"; // আপনার জিমেইল এখানে দিন
+            const name = document.getElementById('sender-name').value;
+            const email = document.getElementById('sender-email').value;
+            const message = document.getElementById('sender-message').value;
+
+            if(name === "" || email === "" || message === "") {
+                showAlert(); // কাস্টম অ্যালার্ট দেখাবে
+                return;
+            }
+
+            const subject = "Project Inquiry from " + name;
+            const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AMessage: ${message}`;
+            window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
+        }
+
+        // কাস্টম অ্যালার্ট দেখানোর ফাংশন
+        function showAlert() {
+            const modal = document.getElementById('custom-alert');
+            const box = document.getElementById('alert-box');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                box.style.transform = 'scale(1)';
+                box.style.opacity = '1';
+            }, 10);
+        }
+
+        function closeAlert() {
+            const modal = document.getElementById('custom-alert');
+            const box = document.getElementById('alert-box');
+            box.style.transform = 'scale(0.8)';
+            box.style.opacity = '0';
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        }
+
+        // প্রজেক্ট ডাটা (৫টি প্রজেক্ট)
+        const projects = [
+            { title: "Brand Portal", thumb: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800" },
+            { title: "Fintech UI", thumb: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800" },
+            { title: "Agency Dashboard", thumb: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800" },
+            { title: "E-commerce App", thumb: "https://images.unsplash.com/photo-1522542550221-31fd19255a7a?w=800" },
+            { title: "SaaS Platform", thumb: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800" }
+        ];
+
+        const grid = document.getElementById('main-grid');
+        projects.forEach((p, i) => {
+            grid.innerHTML += `
+                <div onclick="openProject(${i})" class="group cursor-pointer">
+                    <div class="rounded-[40px] overflow-hidden mb-5 h-72 shadow-sm border border-gray-100">
+                        <img src="${p.thumb}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <h3 class="text-xl font-black text-gray-800 ml-2 tracking-tight">${p.title}</h3>
+                </div>
+            `;
+        });
+
+        function openProject(index) {
+            const p = projects[index];
+            const content = document.getElementById('project-content');
+            
+            let imagesHtml = "";
+            for(let i=1; i<=5; i++) {
+                imagesHtml += `
+                    <div class="portrait-card">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=700&sig=${index}${i}">
+                        <div class="p-8 text-center bg-gray-50">
+                            <h4 class="font-black text-xl text-gray-800">Layout Concept ${i}</h4>
+                            <p class="text-[10px] text-gray-400 font-bold mt-2 uppercase tracking-widest">Mobile Interface Design</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = `
+                <img src="${p.thumb}" class="w-full rounded-[35px] shadow-lg mb-10 aspect-video object-cover">
+                <h1 class="text-4xl font-black text-center mb-16 tracking-tighter">${p.title}</h1>
+                <div class="space-y-4">${imagesHtml}</div>
+            `;
+            
+            document.getElementById('project-view').style.display = 'block';
+            gsap.fromTo('#project-view', { y: '100%' }, { y: 0, duration: 0.7, ease: "expo.out" });
+            window.scrollTo(0,0);
+        }
+
+        function closeProject() {
+            gsap.to('#project-view', { y: '100%', duration: 0.6, ease: "expo.in", onComplete: () => {
+                document.getElementById('project-view').style.display = 'none';
+            }});
+        }
+    </script>
+</body>
+</html>
